@@ -30,7 +30,7 @@ char word_start(char *str) {
     if (non_space_char(p[i])==1) {
       return p[i];
     }
-    i++
+    i++;
   }
 
 }
