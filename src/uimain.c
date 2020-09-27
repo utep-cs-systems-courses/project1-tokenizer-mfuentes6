@@ -8,6 +8,7 @@ int main ()
   printf("Welcome to the Tokenizer!\n");
   Char str[200];
   Char *p = str;
+  List *HISTORY = init_history();
   printf("Here are your options\n");
   printf("1. Enter a string to tokenize\n");
   printf("2. Enter q to exit program\n");
@@ -29,17 +30,20 @@ int main ()
       gotto done;
     }
     else if(str[0] == 'h'){
-
+      print_history(HISTORY);
+    
     }
 
     else if(str[0] == '!'){
-
+      indexID = str[1];     //gets index id to look for
+      printf("String at index %d", indexID);
+      printf("%s", get_history(HISTORY,indexID);
     }
 
     else{
       tokens = tokenizer(str);
       print_tokens(tokens);
-      //add history function
+      add_history(HISTORY,str);
     }
     
 
