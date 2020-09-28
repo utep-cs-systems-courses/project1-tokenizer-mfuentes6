@@ -1,4 +1,6 @@
 #include "history.h"
+#include "tokenizer.h"
+#include <stdlib.h>
 #include <stdio.h>
 
 List* init_history ()
@@ -62,7 +64,7 @@ char *get_history(List *list, int id)
 void print_history(List *list)
 {
   Item *current = list->root;
-  print("Beginning of history\n");
+  printf("Beginning of history\n");
 
   while(current != NULL){
     printf("%d: %s\n", current->id, current->str);
@@ -75,7 +77,7 @@ void free_history(List *list)
 {
   Item *current;
   while(list->root != NULL){       //frees root every pass and sets new root to root->next
-    current = list->;              // continues untill there is no root to free
+    current = list->root;              // continues untill there is no root to free
     list->root = list->root->next;
     free(current);
   }

@@ -1,5 +1,7 @@
 #include <stdio.h>
-#include "tokinizer.h"
+#include <string.h>
+#include <stdlib.h>
+#include "tokenizer.h"
 
 //checks if character is a space or not
 int space_char (char c)
@@ -41,20 +43,20 @@ char word_start(char *str)
 char *word_terminator(char *word)
 {
   char *p = word;
-  if (p +1 == '\0'){
-    return p+1;
-  }
   int i = 0;
+  if (p[i] == '\0'){
+    return p+i;
+  }
   while (p[i] != '\0'){
     if (space_char(p[i])==1){
-      return p[i];
+      return word[i];
     }
     i++;
 
   }
 }
 
-int count_words(char *str)
+int count_words(char* str)
 {
   int count = 0;
   char *p = str;
@@ -75,10 +77,10 @@ char *copy_str(char *inStr, short len)
 {
   char *word = (char*) malloc(len+1);
   char *temp = word;
-
+  
 
                              //continues till null character
-  while (*intStr != '\0') {
+  while (*inStr != '\0') {
     *temp = *inStr;          //continues copying each character
     temp++;
     inStr++;
@@ -90,30 +92,27 @@ char *copy_str(char *inStr, short len)
 
 char **tokenizer (char *str)
 {
-  char *temp = str;
-  int word_count = count_words(*str);
-  word_count += 2;           //makes sure to have space
+  int word_count = count_words(str); //gets size needed for token
+  char *p = str;
+  int i = 0;
+  int j = 0;
+  word_count++;
+  char *temp[50];
+  temp[0] = '\0';   //empty string to omit to then place into token[i]
 
-  char **token = (char**)malloc(word_count * sizeof(char*));
-  int count = 0;
+  char *token =(char*) malloc(word_count * sizeof(char*));
 
-  int start = 0;
-  int end = 0;
-
-  while(str[end] != '\0'){           //iterates through to create the token
-    if(space_char(str[end]) == 1){
-      token[count++] = copy_str(str+start, end-start);
-      start = end +1;
-      end = start;
-      count++
+  while(p[i] != "\0"){
+    if(space_char(p[i]) == 1){
+      
+      token[j] = temp;
+      j++;
+      i++;
+      temp[0] = '\0';      // once temp is added in token[j] reset to "" to begin copying next word
     }
-    else {
-      end++;
-    }
-
+    strncat(temp, &p[i], 1); //appends current character to temp
+    i++;
   }
-  token[count++] = copy_str(str+start,end-start);
-  token[count] = "";     //creates null terminator for end
 
   return token;
 }
@@ -121,9 +120,10 @@ char **tokenizer (char *str)
 
 void print_tokens(char **tokens)
 {
-  while (*str != ""){      //prints untill the null terminator
-    printf("%s\n", *str);
-    str++;
+  int i = 0;
+  while (tokens[i] != ""){      //prints untill the null terminator
+    printf("%s\n", tokens[i]);
+    i++;
 
   }
 
@@ -132,7 +132,7 @@ void print_tokens(char **tokens)
 
 void free_tokens(char **tokens)
 {
-  char **temp = str;       //iterates through and frees every step of iteration
+  char **temp = tokens;       //iterates through and frees every step of iteration
   while(*temp != ""){
     free (*temp);
     temp++;
